@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PainShop · Catálogo de Piercings</title>
+<style>
+*{box-sizing:border-box} body{margin:0;background:#101010;color:#eee;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:rgba(16,16,16,.94);backdrop-filter:blur(14px);border-bottom:1px solid #292929}
+.wrap{max-width:1180px;margin:auto;padding:18px 22px} .top{display:flex;align-items:center;gap:16px}
+.logo{width:54px;height:54px;border-radius:50%;object-fit:cover} .brand{font-weight:800;letter-spacing:.08em;font-size:15px} .sub{color:#8f8f8f;font-size:12px;margin-top:3px}
+.search{margin:18px 0 0;display:flex;gap:10px} input{width:100%;background:#1b1b1b;border:1px solid #303030;color:#fff;border-radius:12px;padding:13px 15px;font-size:14px;outline:none} input:focus{border-color:#666}
+.filters{display:flex;gap:8px;overflow:auto;padding:14px 0 2px} button{border:1px solid #333;background:#191919;color:#ddd;border-radius:999px;padding:9px 14px;cursor:pointer;white-space:nowrap} button.active{background:#eee;color:#111;border-color:#eee}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:24px 22px 60px;max-width:1224px;margin:auto}
+.card{background:#181818;border:1px solid #292929;border-radius:14px;overflow:hidden;transition:.18s;cursor:pointer} .card:hover{transform:translateY(-2px);border-color:#454545}
+.photo{aspect-ratio:1/1;background:radial-gradient(circle,#303030 0 12%,#202020 13% 32%,#171717 33%);display:flex;align-items:center;justify-content:center;color:#777;font-size:12px}
+.info{padding:12px 13px 14px} .name{font-size:14px;font-weight:650} .meta{color:#929292;font-size:12px;margin-top:5px} .row{display:flex;justify-content:space-between;align-items:end;margin-top:12px} .price{font-weight:800;font-size:16px} .stock{font-size:11px;color:#aaa} .out{color:#666}
+.empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:#777}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:30;padding:18px;align-items:center;justify-content:center} .modal.open{display:flex}
+.panel{max-width:720px;width:100%;background:#171717;border:1px solid #333;border-radius:18px;overflow:hidden;box-shadow:0 20px 80px #000}
+.close{float:right;border:0;background:transparent;font-size:24px;padding:10px 14px;color:#aaa} .detail{padding:8px 24px 24px} .detail h2{margin:8px 0} .detail p{color:#aaa;line-height:1.6} .specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0} .spec{background:#202020;padding:11px;border-radius:10px;font-size:13px} .spec b{display:block;color:#777;font-size:10px;text-transform:uppercase;margin-bottom:3px}
+.whatsapp{display:block;text-align:center;text-decoration:none;background:#eee;color:#111;padding:13px;border-radius:11px;font-weight:750;margin-top:18px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr);gap:9px;padding:18px 12px 50px}.wrap{padding:14px 12px}.logo{width:46px;height:46px}}
+
+.footer{border-top:1px solid #292929;background:#0c0c0c;margin-top:20px}
+.footer-inner{max-width:1180px;margin:auto;padding:36px 22px 42px}
+.footer-brand{font-weight:800;letter-spacing:.08em;font-size:15px;margin-bottom:18px}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.footer h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;color:#ddd}
+.footer p{margin:7px 0;color:#8f8f8f;font-size:13px;line-height:1.5}
+.footer a{color:#aaa;text-decoration:none}
+.feedback{margin-top:30px;padding-top:22px;border-top:1px solid #242424}
+.feedback-box{border:1px dashed #333;border-radius:12px;padding:16px;color:#777;font-size:13px}
+@media(max-width:650px){.footer-inner{padding:30px 14px 36px}.footer-grid{grid-template-columns:1fr;gap:20px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><div><div class="brand">PAINSHOP</div><div class="sub">Joyas para piercing · compra por WhatsApp</div></div></div>
+  <div class="search"><input id="search" placeholder="Buscar por nombre, material, medida..."></div>
+  <div class="filters" id="filters"></div>
+</div></header>
+<main class="grid" id="grid"></main>
+
+<div class="modal" id="modal"><div class="panel">
+  <button class="close" onclick="closeModal()">×</button>
+  <div class="detail" id="detail"></div>
+</div></div>
+
+<script>
+const products=[{"id": "L001", "name": "Labret Estrella", "cat": "Labrets", "material": "Titanio", "size": "1.2 × 6 mm", "color": "Dorado", "price": 12, "stock": true}, {"id": "L002", "name": "Labret Bola", "cat": "Labrets", "material": "Titanio", "size": "1.2 × 8 mm", "color": "Plateado", "price": 8, "stock": true}, {"id": "R001", "name": "Clicker Liso", "cat": "Aros", "material": "Titanio", "size": "1.2 × 8 mm", "color": "Plateado", "price": 15, "stock": true}, {"id": "N001", "name": "Nostril Luna", "cat": "Nostril", "material": "Titanio", "size": "0.8 mm", "color": "Dorado", "price": 10, "stock": true}, {"id": "B001", "name": "Barbell Curvo", "cat": "Barbells", "material": "Titanio", "size": "1.2 × 8 mm", "color": "Negro", "price": 14, "stock": false}, {"id": "S001", "name": "Clicker Septum", "cat": "Septum", "material": "Acero", "size": "1.2 × 10 mm", "color": "Negro", "price": 13, "stock": true}];
+const cats=["Todos",...new Set(products.map(p=>p.cat))];
+let active="Todos";
+const filters=document.getElementById("filters");
+cats.forEach(c=>{const b=document.createElement("button");b.textContent=c;b.className=c===active?"active":"";b.onclick=()=>{active=c;document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()};filters.appendChild(b)});
+
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const list=products.filter(p=>(active==="Todos"||p.cat===active)&&Object.values(p).join(" ").toLowerCase().includes(q));
+ const grid=document.getElementById("grid");
+ if(!list.length){grid.innerHTML='<div class="empty">No encontramos productos con esos criterios.</div>';return}
+ grid.innerHTML=list.map((p,i)=>`<article class="card" onclick="openModal('${p.id}')">
+   <div class="photo">FOTO DEL PRODUCTO</div>
+   <div class="info"><div class="name">${p.name}</div><div class="meta">${p.material} · ${p.size}</div>
+   <div class="row"><div class="price">$${p.price}</div><div class="stock ${p.stock?'':'out'}">${p.stock?'Disponible':'Agotado'}</div></div></div>
+ </article>`).join("");
+}
+document.getElementById("search").addEventListener("input",render);
+
+function openModal(id){
+ const p=products.find(x=>x.id===id);
+ document.getElementById("detail").innerHTML=`<div class="photo" style="border-radius:12px">FOTO DEL PRODUCTO</div>
+ <h2>${p.name}</h2><p>Una descripción breve de la joya puede aparecer aquí.</p>
+ <div class="specs">
+  <div class="spec"><b>Material</b>${p.material}</div><div class="spec"><b>Medida</b>${p.size}</div>
+  <div class="spec"><b>Color</b>${p.color}</div><div class="spec"><b>Disponibilidad</b>${p.stock?'Disponible':'Agotado'}</div>
+ </div><strong style="font-size:20px">$${p.price}</strong>
+ <a class="whatsapp" href="https://wa.me/593984703739?text=${encodeURIComponent('Hola! Me interesa '+p.name+' (código '+p.id+'). ¿Está disponible?')}" target="_blank">Pedir por WhatsApp</a>`;
+ document.getElementById("modal").classList.add("open");
+}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+render();
+</script>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">PAINSHOP</div>
+    <div class="footer-grid">
+      <div>
+        <h3>Contacto</h3>
+        <p>WhatsApp: <a href="https://wa.me/593984703739" target="_blank">+593 98 470 3739</a></p>
+        <p>Correo: próximamente</p>
+      </div>
+      <div>
+        <h3>Encuéntranos</h3>
+        <p>Instagram: próximamente</p>
+        <p>TikTok: próximamente</p>
+        <p>📍 Ecuador, Quito, Reina Victoria Y La Pinta</p>
+      </div>
+    </div>
+    <div class="feedback">
+      <h3>Feedback</h3>
+      <div class="feedback-box">Próximamente podrás dejarnos tus comentarios y sugerencias aquí.</div>
+    </div>
+  </div>
+</footer>
+
+</body></html>
