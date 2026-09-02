@@ -1,110 +1,1168 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PainShop · Catálogo de Piercings</title>
-<style>
-*{box-sizing:border-box} body{margin:0;background:#101010;color:#eee;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-header{position:sticky;top:0;z-index:10;background:rgba(16,16,16,.94);backdrop-filter:blur(14px);border-bottom:1px solid #292929}
-.wrap{max-width:1180px;margin:auto;padding:18px 22px} .top{display:flex;align-items:center;gap:16px}
-.logo{width:54px;height:54px;border-radius:50%;object-fit:cover} .brand{font-weight:800;letter-spacing:.08em;font-size:15px} .sub{color:#8f8f8f;font-size:12px;margin-top:3px}
-.search{margin:18px 0 0;display:flex;gap:10px} input{width:100%;background:#1b1b1b;border:1px solid #303030;color:#fff;border-radius:12px;padding:13px 15px;font-size:14px;outline:none} input:focus{border-color:#666}
-.filters{display:flex;gap:8px;overflow:auto;padding:14px 0 2px} button{border:1px solid #333;background:#191919;color:#ddd;border-radius:999px;padding:9px 14px;cursor:pointer;white-space:nowrap} button.active{background:#eee;color:#111;border-color:#eee}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:24px 22px 60px;max-width:1224px;margin:auto}
-.card{background:#181818;border:1px solid #292929;border-radius:14px;overflow:hidden;transition:.18s;cursor:pointer} .card:hover{transform:translateY(-2px);border-color:#454545}
-.photo{aspect-ratio:1/1;background:radial-gradient(circle,#303030 0 12%,#202020 13% 32%,#171717 33%);display:flex;align-items:center;justify-content:center;color:#777;font-size:12px}
-.info{padding:12px 13px 14px} .name{font-size:14px;font-weight:650} .meta{color:#929292;font-size:12px;margin-top:5px} .row{display:flex;justify-content:space-between;align-items:end;margin-top:12px} .price{font-weight:800;font-size:16px} .stock{font-size:11px;color:#aaa} .out{color:#666}
-.empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:#777}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:30;padding:18px;align-items:center;justify-content:center} .modal.open{display:flex}
-.panel{max-width:720px;width:100%;background:#171717;border:1px solid #333;border-radius:18px;overflow:hidden;box-shadow:0 20px 80px #000}
-.close{float:right;border:0;background:transparent;font-size:24px;padding:10px 14px;color:#aaa} .detail{padding:8px 24px 24px} .detail h2{margin:8px 0} .detail p{color:#aaa;line-height:1.6} .specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0} .spec{background:#202020;padding:11px;border-radius:10px;font-size:13px} .spec b{display:block;color:#777;font-size:10px;text-transform:uppercase;margin-bottom:3px}
-.whatsapp{display:block;text-align:center;text-decoration:none;background:#eee;color:#111;padding:13px;border-radius:11px;font-weight:750;margin-top:18px}
-@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr);gap:9px;padding:18px 12px 50px}.wrap{padding:14px 12px}.logo{width:46px;height:46px}}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.footer{border-top:1px solid #292929;background:#0c0c0c;margin-top:20px}
-.footer-inner{max-width:1180px;margin:auto;padding:36px 22px 42px}
-.footer-brand{font-weight:800;letter-spacing:.08em;font-size:15px;margin-bottom:18px}
-.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.footer h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;color:#ddd}
-.footer p{margin:7px 0;color:#8f8f8f;font-size:13px;line-height:1.5}
-.footer a{color:#aaa;text-decoration:none}
-.feedback{margin-top:30px;padding-top:22px;border-top:1px solid #242424}
-.feedback-box{border:1px dashed #333;border-radius:12px;padding:16px;color:#777;font-size:13px}
-@media(max-width:650px){.footer-inner{padding:30px 14px 36px}.footer-grid{grid-template-columns:1fr;gap:20px}}
-</style>
+  <title>PainShop — Piercing & Jewelry</title>
+
+  <meta
+    name="description"
+    content="PainShop — joyería para piercing en Quito, Ecuador."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0b0b0d;
+      --surface: #131316;
+      --surface-hover: #1b1b1f;
+      --border: #29292e;
+      --text: #f1f1f1;
+      --muted: #99999f;
+      --accent: #ffffff;
+      --green: #65c47a;
+      --red: #d96a6a;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 11, 13, 0.96);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px 30px;
+      display: flex;
+      align-items: center;
+      gap: 35px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .search-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .search {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 13px 17px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .search:focus {
+      border-color: #55555c;
+    }
+
+    .search::placeholder {
+      color: #707077;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 35px 30px 80px;
+    }
+
+    .intro {
+      margin-bottom: 35px;
+    }
+
+    .intro h1 {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .intro p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* =========================
+       CATEGORY NAV
+    ========================= */
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 35px;
+      scrollbar-width: thin;
+    }
+
+    .category-btn {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 10px 15px;
+      border-radius: 7px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    .category-btn:hover {
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    .category-btn.active {
+      color: #111;
+      background: #fff;
+      border-color: #fff;
+    }
+
+    /* =========================
+       TOOLBAR
+    ========================= */
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .results-count {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .sort {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 9px 12px;
+      outline: none;
+    }
+
+    /* =========================
+       PRODUCT GRID
+    ========================= */
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .product:hover {
+      transform: translateY(-3px);
+      border-color: #44444b;
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #0f0f11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .no-image {
+      color: #55555b;
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .product-body {
+      padding: 16px;
+    }
+
+    .product-category {
+      color: #77777e;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+
+    .product-name {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 13px;
+    }
+
+    .stock {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .stock-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .stock.sold .stock-dot {
+      background: var(--red);
+    }
+
+    .stock.ask .stock-dot {
+      background: #d0a85c;
+    }
+
+    .details {
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-bottom: 15px;
+    }
+
+    .detail {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 3px 0;
+      font-size: 12px;
+    }
+
+    .detail-label {
+      color: var(--muted);
+    }
+
+    .detail-value {
+      text-align: right;
+    }
+
+    .whatsapp-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 6px;
+      padding: 11px;
+      cursor: pointer;
+      background: #f1f1f1;
+      color: #111;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .whatsapp-btn:hover {
+      background: #fff;
+    }
+
+    /* =========================
+       EMPTY / LOADING
+    ========================= */
+
+    .message {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 70px 20px;
+      color: var(--muted);
+    }
+
+    .loader {
+      margin: 0 auto 15px;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #333;
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: #09090b;
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 45px 30px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .footer-text {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .footer-heading {
+      font-size: 13px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .footer-link {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .footer-link:hover {
+      color: var(--text);
+    }
+
+    .copyright {
+      border-top: 1px solid var(--border);
+      padding: 18px 30px;
+      text-align: center;
+      color: #5f5f65;
+      font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 1100px) {
+      .products {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 750px) {
+      .header-inner {
+        padding: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+
+      .logo {
+        text-align: center;
+      }
+
+      main {
+        padding: 25px 16px 60px;
+      }
+
+      .intro h1 {
+        font-size: 28px;
+      }
+
+      .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .product-body {
+        padding: 12px;
+      }
+
+      .product-name {
+        font-size: 15px;
+      }
+
+      .product-price {
+        font-size: 17px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        padding: 35px 16px;
+        gap: 30px;
+      }
+
+      .copyright {
+        padding: 18px 16px;
+      }
+
+      .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .products {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .details {
+        display: none;
+      }
+
+      .whatsapp-btn {
+        font-size: 12px;
+        padding: 9px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header><div class="wrap">
-  <div class="top"><div><div class="brand">PAINSHOP</div><div class="sub">Joyas para piercing · compra por WhatsApp</div></div></div>
-  <div class="search"><input id="search" placeholder="Buscar por nombre, material, medida..."></div>
-  <div class="filters" id="filters"></div>
-</div></header>
-<main class="grid" id="grid"></main>
 
-<div class="modal" id="modal"><div class="panel">
-  <button class="close" onclick="closeModal()">×</button>
-  <div class="detail" id="detail"></div>
-</div></div>
-
-<script>
-const products=[{"id": "L001", "name": "Labret Estrella", "cat": "Labrets", "material": "Titanio", "size": "1.2 × 6 mm", "color": "Dorado", "price": 12, "stock": true}, {"id": "L002", "name": "Labret Bola", "cat": "Labrets", "material": "Titanio", "size": "1.2 × 8 mm", "color": "Plateado", "price": 8, "stock": true}, {"id": "R001", "name": "Clicker Liso", "cat": "Aros", "material": "Titanio", "size": "1.2 × 8 mm", "color": "Plateado", "price": 15, "stock": true}, {"id": "N001", "name": "Nostril Luna", "cat": "Nostril", "material": "Titanio", "size": "0.8 mm", "color": "Dorado", "price": 10, "stock": true}, {"id": "B001", "name": "Barbell Curvo", "cat": "Barbells", "material": "Titanio", "size": "1.2 × 8 mm", "color": "Negro", "price": 14, "stock": false}, {"id": "S001", "name": "Clicker Septum", "cat": "Septum", "material": "Acero", "size": "1.2 × 10 mm", "color": "Negro", "price": 13, "stock": true}];
-const cats=["Todos",...new Set(products.map(p=>p.cat))];
-let active="Todos";
-const filters=document.getElementById("filters");
-cats.forEach(c=>{const b=document.createElement("button");b.textContent=c;b.className=c===active?"active":"";b.onclick=()=>{active=c;document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()};filters.appendChild(b)});
-
-function render(){
- const q=document.getElementById("search").value.toLowerCase();
- const list=products.filter(p=>(active==="Todos"||p.cat===active)&&Object.values(p).join(" ").toLowerCase().includes(q));
- const grid=document.getElementById("grid");
- if(!list.length){grid.innerHTML='<div class="empty">No encontramos productos con esos criterios.</div>';return}
- grid.innerHTML=list.map((p,i)=>`<article class="card" onclick="openModal('${p.id}')">
-   <div class="photo">FOTO DEL PRODUCTO</div>
-   <div class="info"><div class="name">${p.name}</div><div class="meta">${p.material} · ${p.size}</div>
-   <div class="row"><div class="price">$${p.price}</div><div class="stock ${p.stock?'':'out'}">${p.stock?'Disponible':'Agotado'}</div></div></div>
- </article>`).join("");
-}
-document.getElementById("search").addEventListener("input",render);
-
-function openModal(id){
- const p=products.find(x=>x.id===id);
- document.getElementById("detail").innerHTML=`<div class="photo" style="border-radius:12px">FOTO DEL PRODUCTO</div>
- <h2>${p.name}</h2><p>Una descripción breve de la joya puede aparecer aquí.</p>
- <div class="specs">
-  <div class="spec"><b>Material</b>${p.material}</div><div class="spec"><b>Medida</b>${p.size}</div>
-  <div class="spec"><b>Color</b>${p.color}</div><div class="spec"><b>Disponibilidad</b>${p.stock?'Disponible':'Agotado'}</div>
- </div><strong style="font-size:20px">$${p.price}</strong>
- <a class="whatsapp" href="https://wa.me/593984703739?text=${encodeURIComponent('Hola! Me interesa '+p.name+' (código '+p.id+'). ¿Está disponible?')}" target="_blank">Pedir por WhatsApp</a>`;
- document.getElementById("modal").classList.add("open");
-}
-function closeModal(){document.getElementById("modal").classList.remove("open")}
-document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
-render();
-</script>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">PAINSHOP</div>
-    <div class="footer-grid">
-      <div>
-        <h3>Contacto</h3>
-        <p>WhatsApp: <a href="https://wa.me/593984703739" target="_blank">+593 98 470 3739</a></p>
-        <p>Correo: próximamente</p>
-      </div>
-      <div>
-        <h3>Encuéntranos</h3>
-        <p>Instagram: próximamente</p>
-        <p>TikTok: próximamente</p>
-        <p>📍 Ecuador, Quito, Reina Victoria Y La Pinta</p>
-      </div>
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      PainShop <span>/ Jewelry</span>
     </div>
-    <div class="feedback">
-      <h3>Feedback</h3>
-      <div class="feedback-box">Próximamente podrás dejarnos tus comentarios y sugerencias aquí.</div>
+
+    <div class="search-wrap">
+      <input
+        id="search"
+        class="search"
+        type="search"
+        placeholder="Buscar joyería..."
+        autocomplete="off"
+      >
     </div>
   </div>
+</header>
+
+
+<main>
+
+  <section class="intro">
+    <h1>Joyería para piercing</h1>
+    <p>Explora nuestro catálogo de PainShop.</p>
+  </section>
+
+  <nav id="categories" class="categories">
+    <button class="category-btn active" data-category="all">
+      Todos
+    </button>
+  </nav>
+
+  <div class="toolbar">
+    <div id="resultsCount" class="results-count">
+      Cargando catálogo...
+    </div>
+
+    <select id="sort" class="sort">
+      <option value="default">Ordenar</option>
+      <option value="price-low">Precio: menor a mayor</option>
+      <option value="price-high">Precio: mayor a menor</option>
+      <option value="name">Nombre</option>
+    </select>
+  </div>
+
+  <section id="products" class="products">
+    <div class="message">
+      <div class="loader"></div>
+      Cargando productos...
+    </div>
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div>
+      <div class="footer-title">PainShop</div>
+
+      <div class="footer-text">
+        Joyería para piercing en Quito, Ecuador.
+        <br>
+        Reina Victoria Y La Pinta
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-heading">Contacto</div>
+
+      <a
+        class="footer-link"
+        href="https://wa.me/593984703739"
+        target="_blank"
+      >
+        WhatsApp: +593 98 470 3739
+      </a>
+
+      <div class="footer-text">
+        Quito, Ecuador
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-heading">PainShop</div>
+
+      <div class="footer-text">
+        ¿Tienes alguna sugerencia o comentario?
+        <br>
+        Próximamente añadiremos nuestro formulario de feedback.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    © 2026 PainShop. Todos los derechos reservados.
+  </div>
+
 </footer>
 
-</body></html>
+
+<script>
+
+  /*
+   * ==========================================
+   * CONFIGURACIÓN
+   * ==========================================
+   */
+
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbzmvI1adtX-AmCKToQl-nB5r2Irs48BbMGk2VMvQbb1zq2VwyuNlL6_hmJD7xQsNn2u/exec";
+
+
+  /*
+   * ==========================================
+   * ESTADO
+   * ==========================================
+   */
+
+  let catalog = {};
+  let products = [];
+  let currentCategory = "all";
+
+
+  /*
+   * ==========================================
+   * CARGAR CATÁLOGO
+   * ==========================================
+   */
+
+  function loadCatalog() {
+
+    const callbackName =
+      "painShopCatalog_" + Date.now();
+
+    window[callbackName] = function(data) {
+
+      catalog = data || {};
+
+      products = [];
+
+      Object.keys(catalog).forEach(category => {
+
+        const categoryProducts =
+          Array.isArray(catalog[category])
+            ? catalog[category]
+            : [];
+
+        categoryProducts.forEach(product => {
+
+          if (!product["Categoría"]) {
+            product["Categoría"] = category;
+          }
+
+          products.push(product);
+
+        });
+
+      });
+
+      delete window[callbackName];
+
+      renderCategories();
+      renderProducts();
+
+    };
+
+
+    const script =
+      document.createElement("script");
+
+    script.src =
+      API_URL +
+      "?callback=" +
+      callbackName;
+
+    script.onerror = function() {
+
+      document.getElementById("products").innerHTML = `
+        <div class="message">
+          No se pudo cargar el catálogo.
+          <br>
+          Intenta actualizar la página.
+        </div>
+      `;
+
+      document.getElementById("resultsCount").textContent =
+        "Error al cargar";
+
+      delete window[callbackName];
+
+    };
+
+    document.body.appendChild(script);
+  }
+
+
+  /*
+   * ==========================================
+   * CATEGORÍAS
+   * ==========================================
+   */
+
+  function renderCategories() {
+
+    const container =
+      document.getElementById("categories");
+
+    container.innerHTML = `
+      <button
+        class="category-btn active"
+        data-category="all"
+      >
+        Todos
+      </button>
+    `;
+
+    Object.keys(catalog).forEach(category => {
+
+      const productsInCategory =
+        catalog[category] || [];
+
+      if (productsInCategory.length === 0) {
+        return;
+      }
+
+      const button =
+        document.createElement("button");
+
+      button.className = "category-btn";
+
+      button.dataset.category = category;
+
+      button.textContent = category;
+
+      container.appendChild(button);
+
+    });
+
+
+    container
+      .querySelectorAll(".category-btn")
+      .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+          currentCategory =
+            button.dataset.category;
+
+          container
+            .querySelectorAll(".category-btn")
+            .forEach(btn =>
+              btn.classList.remove("active")
+            );
+
+          button.classList.add("active");
+
+          renderProducts();
+
+        });
+
+      });
+
+  }
+
+
+  /*
+   * ==========================================
+   * ФИЛЬТРАЦИЯ
+   * ==========================================
+   */
+
+  function getFilteredProducts() {
+
+    const search =
+      document
+        .getElementById("search")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    let result =
+      products.filter(product => {
+
+        const categoryMatch =
+          currentCategory === "all" ||
+          product["Categoría"] === currentCategory;
+
+        if (!categoryMatch) {
+          return false;
+        }
+
+
+        if (!search) {
+          return true;
+        }
+
+
+        const searchableText =
+          Object.values(product)
+            .join(" ")
+            .toLowerCase();
+
+        return searchableText.includes(search);
+
+      });
+
+
+    const sort =
+      document.getElementById("sort").value;
+
+
+    if (sort === "price-low") {
+
+      result.sort((a, b) =>
+        getPrice(a["Precio"]) -
+        getPrice(b["Precio"])
+      );
+
+    }
+
+
+    if (sort === "price-high") {
+
+      result.sort((a, b) =>
+        getPrice(b["Precio"]) -
+        getPrice(a["Precio"])
+      );
+
+    }
+
+
+    if (sort === "name") {
+
+      result.sort((a, b) =>
+        String(a["Nombre"] || "")
+          .localeCompare(
+            String(b["Nombre"] || ""),
+            "es"
+          )
+      );
+
+    }
+
+
+    return result;
+  }
+
+
+  /*
+   * ==========================================
+   * ЦЕНА
+   * ==========================================
+   */
+
+  function getPrice(value) {
+
+    if (value === undefined || value === null) {
+      return 0;
+    }
+
+    const number =
+      String(value)
+        .replace(",", ".")
+        .replace(/[^0-9.]/g, "");
+
+    return parseFloat(number) || 0;
+  }
+
+
+  /*
+   * ==========================================
+   * КАРТОЧКИ
+   * ==========================================
+   */
+
+  function renderProducts() {
+
+    const container =
+      document.getElementById("products");
+
+    const filtered =
+      getFilteredProducts();
+
+
+    document.getElementById("resultsCount")
+      .textContent =
+      filtered.length +
+      (filtered.length === 1
+        ? " producto"
+        : " productos");
+
+
+    if (filtered.length === 0) {
+
+      container.innerHTML = `
+        <div class="message">
+          No encontramos productos.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    filtered.forEach(product => {
+
+      const card =
+        document.createElement("article");
+
+      card.className = "product";
+
+
+      /*
+       * ФОТО
+       */
+
+      const photos =
+        String(product["Fotos"] || "")
+          .split(",")
+          .map(x => x.trim())
+          .filter(Boolean);
+
+
+      let imageHTML =
+        `<div class="no-image">Sin foto</div>`;
+
+
+      if (photos.length > 0) {
+
+        imageHTML =
+          `<img
+            src="${escapeHTML(photos[0])}"
+            alt="${escapeHTML(product["Nombre"] || "Joyería")}"
+            loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          >
+          <div class="no-image" style="display:none;">
+            Sin foto
+          </div>`;
+
+      }
+
+
+      /*
+       * ЦЕНА
+       */
+
+      let price =
+        product["Precio"] || "";
+
+      if (price !== "") {
+
+        const numericPrice =
+          getPrice(price);
+
+        if (numericPrice > 0) {
+          price = "$" + numericPrice;
+        }
+
+      }
+
+
+      /*
+       * STOCK
+       */
+
+      const stock =
+        String(product["Stock"] || "")
+          .trim();
+
+      let stockClass = "";
+
+      if (stock === "Agotado") {
+        stockClass = "sold";
+      }
+
+      if (stock === "Consultar") {
+        stockClass = "ask";
+      }
+
+
+      /*
+       * ДЕТАЛИ
+       */
+
+      const detailFields = [
+        ["Tipo", "Ideal para"],
+        ["Calibre", "Calibre"],
+        ["Largo", "Largo"],
+        ["Diámetro", "Diámetro"],
+        ["mm", "mm"],
+        ["Material", "Material"],
+        ["Rosca", "Rosca"],
+        ["Color", "Color"],
+        ["Piedra", "Piedra"]
+      ];
+
+
+      let detailsHTML = "";
+
+
+      detailFields.forEach(([field, label]) => {
+
+        const value =
+          product[field];
+
+        if (
+          value !== undefined &&
+          value !== null &&
+          String(value).trim() !== ""
+        ) {
+
+          detailsHTML += `
+            <div class="detail">
+              <span class="detail-label">
+                ${label}
+              </span>
+
+              <span class="detail-value">
+                ${escapeHTML(String(value))}
+              </span>
+            </div>
+          `;
+
+        }
+
+      });
+
+
+      /*
+       * WHATSAPP
+       */
+
+      const code =
+        product["Código"] || "";
+
+      const name =
+        product["Nombre"] || "producto";
+
+
+      const message =
+        "Hola! Me interesa la joyería " +
+        name +
+        (code ? " (" + code + ")" : "") +
+        ". ¿Está disponible?";
+
+
+      const whatsappURL =
+        "https://wa.me/593984703739?text=" +
+        encodeURIComponent(message);
+
+
+      /*
+       * СОБИРАЕМ КАРТОЧКУ
+       */
+
+      card.innerHTML = `
+
+        <div class="product-image">
+          ${imageHTML}
+        </div>
+
+        <div class="product-body">
+
+          <div class="product-category">
+            ${escapeHTML(product["Categoría"] || "")}
+          </div>
+
+          <div class="product-name">
+            ${escapeHTML(name)}
+          </div>
+
+          <div class="product-price">
+            ${escapeHTML(String(price))}
+          </div>
+
+          ${
+            stock
+              ? `
+                <div class="stock ${stockClass}">
+                  <span class="stock-dot"></span>
+                  ${escapeHTML(stock)}
+                </div>
+              `
+              : ""
+          }
+
+          ${
+            detailsHTML
+              ? `
+                <div class="details">
+                  ${detailsHTML}
+                </div>
+              `
+              : ""
+          }
+
+          <a
+            class="whatsapp-btn"
+            href="${whatsappURL}"
+            target="_blank"
+            rel="noopener"
+          >
+            Consultar por WhatsApp
+          </a>
+
+        </div>
+      `;
+
+
+      container.appendChild(card);
+
+    });
+
+  }
+
+
+  /*
+   * ==========================================
+   * ЗАЩИТА ТЕКСТА
+   * ==========================================
+   */
+
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /*
+   * ==========================================
+   * ПОИСК
+   * ==========================================
+   */
+
+  document
+    .getElementById("search")
+    .addEventListener(
+      "input",
+      renderProducts
+    );
+
+
+  /*
+   * ==========================================
+   * СОРТИРОВКА
+   * ==========================================
+   */
+
+  document
+    .getElementById("sort")
+    .addEventListener(
+      "change",
+      renderProducts
+    );
+
+
+  /*
+   * ==========================================
+   * СТАРТ
+   * ==========================================
+   */
+
+  loadCatalog();
+
+</script>
+
+</body>
+</html>
