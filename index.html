@@ -1,538 +1,376 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>PainShop — Piercing & Jewelry</title>
-
-  <meta
-    name="description"
-    content="PainShop — joyería para piercing en Quito, Ecuador."
-  >
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #0b0b0d;
-      --surface: #131316;
-      --surface-hover: #1b1b1f;
-      --border: #29292e;
-      --text: #f1f1f1;
-      --muted: #99999f;
-      --accent: #ffffff;
-      --green: #65c47a;
-      --red: #d96a6a;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    header {
-      border-bottom: 1px solid var(--border);
-      background: rgba(11, 11, 13, 0.96);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-    }
-
-    .header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 22px 30px;
-      display: flex;
-      align-items: center;
-      gap: 35px;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      white-space: nowrap;
-    }
-
-    .logo span {
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .search-wrap {
-      flex: 1;
-      position: relative;
-    }
-
-    .search {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 8px;
-      padding: 13px 17px;
-      outline: none;
-      transition: 0.2s;
-    }
-
-    .search:focus {
-      border-color: #55555c;
-    }
-
-    .search::placeholder {
-      color: #707077;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    main {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 35px 30px 80px;
-    }
-
-    .intro {
-      margin-bottom: 35px;
-    }
-
-    .intro h1 {
-      font-size: 34px;
-      margin-bottom: 8px;
-    }
-
-    .intro p {
-      color: var(--muted);
-      font-size: 15px;
-    }
-
-    /* =========================
-       CATEGORY NAV
-    ========================= */
-
-    .categories {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 35px;
-      scrollbar-width: thin;
-    }
-
-    .category-btn {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 10px 15px;
-      border-radius: 7px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: 0.2s;
-    }
-
-    .category-btn:hover {
-      color: var(--text);
-      background: var(--surface);
-    }
-
-    .category-btn.active {
-      color: #111;
-      background: #fff;
-      border-color: #fff;
-    }
-
-    /* =========================
-       TOOLBAR
-    ========================= */
-
-    .toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .results-count {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .sort {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 9px 12px;
-      outline: none;
-    }
-
-    /* =========================
-       PRODUCT GRID
-    ========================= */
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .product {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .product:hover {
-      transform: translateY(-3px);
-      border-color: #44444b;
-    }
-
-    .product-image {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: #0f0f11;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .no-image {
-      color: #55555b;
-      font-size: 13px;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .product-body {
-      padding: 16px;
-    }
-
-    .product-category {
-      color: #77777e;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 6px;
-    }
-
-    .product-name {
-      font-size: 17px;
-      margin-bottom: 10px;
-    }
-
-    .product-price {
-      font-size: 19px;
-      font-weight: 700;
-      margin-bottom: 13px;
-    }
-
-    .stock {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      margin-bottom: 14px;
-    }
-
-    .stock-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-    }
-
-    .stock.sold .stock-dot {
-      background: var(--red);
-    }
-
-    .stock.ask .stock-dot {
-      background: #d0a85c;
-    }
-
-    .details {
-      border-top: 1px solid var(--border);
-      padding-top: 12px;
-      margin-bottom: 15px;
-    }
-
-    .detail {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 3px 0;
-      font-size: 12px;
-    }
-
-    .detail-label {
-      color: var(--muted);
-    }
-
-    .detail-value {
-      text-align: right;
-    }
-
-    .whatsapp-btn {
-      width: 100%;
-      border: 0;
-      border-radius: 6px;
-      padding: 11px;
-      cursor: pointer;
-      background: #f1f1f1;
-      color: #111;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-
-    .whatsapp-btn:hover {
-      background: #fff;
-    }
-
-    /* =========================
-       EMPTY / LOADING
-    ========================= */
-
-    .message {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 70px 20px;
-      color: var(--muted);
-    }
-
-    .loader {
-      margin: 0 auto 15px;
-      width: 30px;
-      height: 30px;
-      border: 2px solid #333;
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      border-top: 1px solid var(--border);
-      background: #09090b;
-    }
-
-    .footer-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 45px 30px;
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 40px;
-    }
-
-    .footer-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .footer-text {
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: 14px;
-    }
-
-    .footer-heading {
-      font-size: 13px;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-
-    .footer-link {
-      display: block;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    .footer-link:hover {
-      color: var(--text);
-    }
-
-    .copyright {
-      border-top: 1px solid var(--border);
-      padding: 18px 30px;
-      text-align: center;
-      color: #5f5f65;
-      font-size: 12px;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 1100px) {
-      .products {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 750px) {
-      .header-inner {
-        padding: 16px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 14px;
-      }
-
-      .logo {
-        text-align: center;
-      }
-
-      main {
-        padding: 25px 16px 60px;
-      }
-
-      .intro h1 {
-        font-size: 28px;
-      }
-
-      .products {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .product-body {
-        padding: 12px;
-      }
-
-      .product-name {
-        font-size: 15px;
-      }
-
-      .product-price {
-        font-size: 17px;
-      }
-
-      .footer-inner {
-        grid-template-columns: 1fr;
-        padding: 35px 16px;
-        gap: 30px;
-      }
-
-      .copyright {
-        padding: 18px 16px;
-      }
-
-      .toolbar {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .products {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .details {
-        display: none;
-      }
-
-      .whatsapp-btn {
-        font-size: 12px;
-        padding: 9px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PainShop — Jewelry</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0d0d0d;
+  color: #f2f2f2;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  border-bottom: 1px solid #292929;
+  padding: 22px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  background: rgba(13,13,13,.96);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.logo span {
+  color: #888;
+  font-weight: 400;
+}
+
+.search {
+  width: min(420px, 100%);
+  background: #171717;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: white;
+  padding: 12px 15px;
+  outline: none;
+  font-size: 14px;
+}
+
+.search:focus {
+  border-color: #666;
+}
+
+main {
+  max-width: 1400px;
+  margin: auto;
+  padding: 45px 25px;
+}
+
+.intro {
+  margin-bottom: 35px;
+}
+
+.intro h1 {
+  font-size: 38px;
+  margin: 0 0 10px;
+}
+
+.intro p {
+  color: #999;
+  margin: 0;
+}
+
+.categories {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.category-btn {
+  background: #171717;
+  color: #bbb;
+  border: 1px solid #333;
+  border-radius: 7px;
+  padding: 9px 14px;
+  cursor: pointer;
+}
+
+.category-btn:hover,
+.category-btn.active {
+  background: #eee;
+  color: #111;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.results {
+  color: #777;
+  font-size: 13px;
+}
+
+.sort {
+  background: #171717;
+  color: #ddd;
+  border: 1px solid #333;
+  border-radius: 7px;
+  padding: 9px 12px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: #151515;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: .2s ease;
+}
+
+.card:hover {
+  border-color: #444;
+  transform: translateY(-2px);
+}
+
+.photo {
+  aspect-ratio: 1 / 1;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  overflow: hidden;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 17px;
+}
+
+.card h2 {
+  font-size: 17px;
+  margin: 0 0 7px;
+}
+
+.code {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.price {
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.info {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+
+.info-row {
+  font-size: 13px;
+  color: #999;
+}
+
+.info-row strong {
+  color: #ddd;
+  font-weight: 500;
+}
+
+.stock {
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.stock-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #777;
+  margin-right: 6px;
+}
+
+.order {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  text-align: center;
+  background: #eee;
+  color: #111;
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.order:hover {
+  background: white;
+}
+
+.message {
+  grid-column: 1 / -1;
+  padding: 60px 20px;
+  text-align: center;
+  color: #777;
+}
+
+footer {
+  border-top: 1px solid #292929;
+  margin-top: 70px;
+  padding: 40px 25px;
+  color: #777;
+}
+
+.footer-inner {
+  max-width: 1400px;
+  margin: auto;
+}
+
+.footer-title {
+  color: #ddd;
+  margin-bottom: 15px;
+}
+
+.footer-item {
+  margin: 7px 0;
+}
+
+footer a {
+  color: #aaa;
+}
+
+@media (max-width: 650px) {
+
+  header {
+    padding: 18px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .logo {
+    text-align: center;
+  }
+
+  main {
+    padding: 30px 15px;
+  }
+
+  .intro h1 {
+    font-size: 30px;
+  }
+
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .card-content {
+    padding: 12px;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="logo">
-      PainShop <span>/ Jewelry</span>
-    </div>
 
-    <div class="search-wrap">
-      <input
-        id="search"
-        class="search"
-        type="search"
-        placeholder="Buscar joyería..."
-        autocomplete="off"
-      >
-    </div>
+  <div class="logo">
+    PainShop <span>/ Jewelry</span>
   </div>
+
+  <input
+    id="search"
+    class="search"
+    type="search"
+    placeholder="Buscar joyería..."
+  >
+
 </header>
 
 
 <main>
 
   <section class="intro">
+
     <h1>Joyería para piercing</h1>
-    <p>Explora nuestro catálogo de PainShop.</p>
+
+    <p>
+      Explora nuestro catálogo y encuentra la pieza que buscas.
+    </p>
+
   </section>
 
-  <nav id="categories" class="categories">
-    <button class="category-btn active" data-category="all">
+
+  <div id="categories" class="categories">
+
+    <button
+      class="category-btn active"
+      data-category="Todos"
+    >
       Todos
     </button>
-  </nav>
 
-  <div class="toolbar">
-    <div id="resultsCount" class="results-count">
-      Cargando catálogo...
+  </div>
+
+
+  <div class="controls">
+
+    <div id="resultsCount" class="results">
+      Cargando productos...
     </div>
 
     <select id="sort" class="sort">
-      <option value="default">Ordenar</option>
-      <option value="price-low">Precio: menor a mayor</option>
-      <option value="price-high">Precio: mayor a menor</option>
-      <option value="name">Nombre</option>
+
+      <option value="default">
+        Ordenar
+      </option>
+
+      <option value="price-low">
+        Precio: menor a mayor
+      </option>
+
+      <option value="price-high">
+        Precio: mayor a menor
+      </option>
+
+      <option value="name">
+        Nombre
+      </option>
+
     </select>
+
   </div>
 
+
   <section id="products" class="products">
+
     <div class="message">
-      <div class="loader"></div>
-      Cargando productos...
+      Cargando catálogo...
     </div>
+
   </section>
 
 </main>
@@ -542,46 +380,40 @@
 
   <div class="footer-inner">
 
-    <div>
-      <div class="footer-title">PainShop</div>
-
-      <div class="footer-text">
-        Joyería para piercing en Quito, Ecuador.
-        <br>
-        Reina Victoria Y La Pinta
-      </div>
+    <div class="footer-title">
+      <strong>PainShop</strong>
     </div>
 
-    <div>
-      <div class="footer-heading">Contacto</div>
+    <div class="footer-item">
+      📍 Ecuador, Quito, Reina Victoria Y La Pinta
+    </div>
 
-      <a
-        class="footer-link"
-        href="https://wa.me/593984703739"
-        target="_blank"
-      >
-        WhatsApp: +593 98 470 3739
+    <div class="footer-item">
+      📱
+      <a href="https://wa.me/593984703739" target="_blank">
+        +593 98 470 3739
       </a>
-
-      <div class="footer-text">
-        Quito, Ecuador
-      </div>
     </div>
 
-    <div>
-      <div class="footer-heading">PainShop</div>
-
-      <div class="footer-text">
-        ¿Tienes alguna sugerencia o comentario?
-        <br>
-        Próximamente añadiremos nuestro formulario de feedback.
-      </div>
+    <div class="footer-item">
+      📧 Email: próximamente
     </div>
 
-  </div>
+    <div class="footer-item">
+      📷 Instagram: próximamente
+    </div>
 
-  <div class="copyright">
-    © 2026 PainShop. Todos los derechos reservados.
+    <div class="footer-item">
+      🎵 TikTok: próximamente
+    </div>
+
+    <br>
+
+    <div class="footer-item">
+      💬 ¿Tienes algún comentario o sugerencia?
+      Próximamente podrás dejar tu feedback aquí.
+    </div>
+
   </div>
 
 </footer>
@@ -589,64 +421,372 @@
 
 <script>
 
-  /*
-   * ==========================================
-   * CONFIGURACIÓN
-   * ==========================================
-   */
+/*
+====================================================
+ PAINSHOP
+ CARGADOR DEL CATÁLOGO
+====================================================
+*/
 
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbzmvI1adtX-AmCKToQl-nB5r2Irs48BbMGk2VMvQbb1zq2VwyuNlL6_hmJD7xQsNn2u/exec";
-
-
-  /*
-   * ==========================================
-   * ESTADO
-   * ==========================================
-   */
-
-  let catalog = {};
-  let products = [];
-  let currentCategory = "all";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzmvI1adtX-AmCKToQl-nB5r2Irs48BbMGk2VMvQbb1zq2VwyuNlL6_hmJD7xQsNn2u/exec";
 
 
-  /*
-   * ==========================================
-   * CARGAR CATÁLOGO
-   * ==========================================
-   */
+let catalog = {};
+let products = [];
 
-  function loadCatalog() {
+let currentCategory = "Todos";
+let currentSearch = "";
+let currentSort = "default";
 
-    const callbackName =
-      "painShopCatalog_" + Date.now();
 
-    window[callbackName] = function(data) {
+/*
+----------------------------------------------------
+ NORMALIZAR PRECIO
+----------------------------------------------------
+*/
 
-      catalog = data || {};
+function getPrice(product) {
 
-      products = [];
+  let value = product["Precio"];
 
-      Object.keys(catalog).forEach(category => {
+  if (value === null || value === undefined) {
+    return 0;
+  }
 
-        const categoryProducts =
-          Array.isArray(catalog[category])
-            ? catalog[category]
-            : [];
+  value = String(value)
+    .replace("$", "")
+    .replace(",", ".")
+    .trim();
 
-        categoryProducts.forEach(product => {
+  const number = parseFloat(value);
 
-          if (!product["Categoría"]) {
-            product["Categoría"] = category;
-          }
+  return isNaN(number) ? 0 : number;
+}
 
-          products.push(product);
 
-        });
+/*
+----------------------------------------------------
+ MOSTRAR PRECIO
+----------------------------------------------------
+*/
+
+function displayPrice(product) {
+
+  const price = getPrice(product);
+
+  if (!price) {
+    return "Consultar";
+  }
+
+  return "$" + price.toFixed(2);
+}
+
+
+/*
+----------------------------------------------------
+ ESCAPAR HTML
+----------------------------------------------------
+*/
+
+function escapeHTML(value) {
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/*
+----------------------------------------------------
+ FOTOS
+----------------------------------------------------
+*/
+
+function getPhoto(product) {
+
+  const value = product["Fotos"];
+
+  if (!value) {
+    return null;
+  }
+
+  const urls = String(value)
+    .split(",")
+    .map(x => x.trim())
+    .filter(Boolean);
+
+  return urls.length ? urls[0] : null;
+}
+
+
+/*
+----------------------------------------------------
+ CARGAR CATÁLOGO
+----------------------------------------------------
+*/
+
+function loadCatalog() {
+
+  const callbackName =
+    "painShopCatalog_" +
+    Date.now() +
+    "_" +
+    Math.floor(Math.random() * 100000);
+
+
+  let finished = false;
+
+
+  window[callbackName] = function(data) {
+
+    if (finished) return;
+
+    finished = true;
+
+    console.log("PainShop: catálogo recibido", data);
+
+    catalog = data || {};
+    products = [];
+
+
+    Object.keys(catalog).forEach(category => {
+
+      const categoryProducts =
+        Array.isArray(catalog[category])
+          ? catalog[category]
+          : [];
+
+
+      categoryProducts.forEach(product => {
+
+        if (!product["Categoría"]) {
+          product["Categoría"] = category;
+        }
+
+        products.push(product);
 
       });
 
+    });
+
+
+    cleanup();
+
+    renderCategories();
+    renderProducts();
+
+  };
+
+
+  function cleanup() {
+
+    try {
       delete window[callbackName];
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+
+  const script =
+    document.createElement("script");
+
+
+  script.src =
+    API_URL +
+    "?callback=" +
+    encodeURIComponent(callbackName) +
+    "&t=" +
+    Date.now();
+
+
+  script.async = true;
+
+
+  script.onload = function() {
+
+    console.log(
+      "PainShop: respuesta del servidor recibida"
+    );
+
+  };
+
+
+  script.onerror = function(error) {
+
+    if (finished) return;
+
+    finished = true;
+
+    console.error(
+      "PainShop: error cargando Apps Script",
+      error
+    );
+
+
+    document.getElementById("products").innerHTML = `
+
+      <div class="message">
+
+        <strong>
+          No se pudo cargar el catálogo.
+        </strong>
+
+        <br><br>
+
+        El servidor de productos no respondió
+        correctamente.
+
+        <br><br>
+
+        Intenta actualizar la página.
+
+      </div>
+
+    `;
+
+
+    document.getElementById(
+      "resultsCount"
+    ).textContent =
+      "Error al cargar";
+
+
+    cleanup();
+
+  };
+
+
+  document.body.appendChild(script);
+
+
+  /*
+  --------------------------------------------------
+  TIMEOUT
+  --------------------------------------------------
+  */
+
+  setTimeout(function() {
+
+    if (finished) return;
+
+    finished = true;
+
+    console.error(
+      "PainShop: timeout esperando catálogo"
+    );
+
+
+    document.getElementById("products").innerHTML = `
+
+      <div class="message">
+
+        <strong>
+          El catálogo está tardando demasiado.
+        </strong>
+
+        <br><br>
+
+        Actualiza la página para intentarlo nuevamente.
+
+      </div>
+
+    `;
+
+
+    document.getElementById(
+      "resultsCount"
+    ).textContent =
+      "Tiempo de espera agotado";
+
+
+    cleanup();
+
+  }, 15000);
+
+}
+
+
+/*
+----------------------------------------------------
+ CATEGORÍAS
+----------------------------------------------------
+*/
+
+function renderCategories() {
+
+  const container =
+    document.getElementById("categories");
+
+
+  container.innerHTML = "";
+
+
+  const allButton =
+    document.createElement("button");
+
+  allButton.className =
+    "category-btn" +
+    (currentCategory === "Todos"
+      ? " active"
+      : "");
+
+  allButton.textContent =
+    "Todos";
+
+  allButton.onclick = function() {
+
+    currentCategory = "Todos";
+
+    renderCategories();
+    renderProducts();
+
+  };
+
+  container.appendChild(allButton);
+
+
+  Object.keys(catalog).forEach(category => {
+
+    const categoryProducts =
+      Array.isArray(catalog[category])
+        ? catalog[category]
+        : [];
+
+
+    if (!categoryProducts.length) {
+      return;
+    }
+
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "category-btn" +
+      (
+        currentCategory === category
+          ? " active"
+          : ""
+      );
+
+
+    button.textContent =
+      category;
+
+
+    button.onclick = function() {
+
+      currentCategory = category;
 
       renderCategories();
       renderProducts();
@@ -654,513 +794,432 @@
     };
 
 
-    const script =
-      document.createElement("script");
+    container.appendChild(button);
 
-    script.src =
-      API_URL +
-      "?callback=" +
-      callbackName;
+  });
 
-    script.onerror = function() {
-
-      document.getElementById("products").innerHTML = `
-        <div class="message">
-          No se pudo cargar el catálogo.
-          <br>
-          Intenta actualizar la página.
-        </div>
-      `;
-
-      document.getElementById("resultsCount").textContent =
-        "Error al cargar";
-
-      delete window[callbackName];
-
-    };
-
-    document.body.appendChild(script);
-  }
+}
 
 
-  /*
-   * ==========================================
-   * CATEGORÍAS
-   * ==========================================
-   */
+/*
+----------------------------------------------------
+ FILTRAR
+----------------------------------------------------
+*/
 
-  function renderCategories() {
+function getVisibleProducts() {
 
-    const container =
-      document.getElementById("categories");
+  let result =
+    products.filter(product => {
 
-    container.innerHTML = `
-      <button
-        class="category-btn active"
-        data-category="all"
-      >
-        Todos
-      </button>
-    `;
+      const categoryMatch =
+        currentCategory === "Todos" ||
+        product["Categoría"] === currentCategory;
 
-    Object.keys(catalog).forEach(category => {
 
-      const productsInCategory =
-        catalog[category] || [];
-
-      if (productsInCategory.length === 0) {
-        return;
+      if (!categoryMatch) {
+        return false;
       }
 
-      const button =
-        document.createElement("button");
 
-      button.className = "category-btn";
+      if (!currentSearch) {
+        return true;
+      }
 
-      button.dataset.category = category;
 
-      button.textContent = category;
+      const text =
+        Object.values(product)
+          .join(" ")
+          .toLowerCase();
 
-      container.appendChild(button);
+
+      return text.includes(
+        currentSearch.toLowerCase()
+      );
 
     });
 
 
-    container
-      .querySelectorAll(".category-btn")
-      .forEach(button => {
+  if (currentSort === "price-low") {
 
-        button.addEventListener("click", () => {
-
-          currentCategory =
-            button.dataset.category;
-
-          container
-            .querySelectorAll(".category-btn")
-            .forEach(btn =>
-              btn.classList.remove("active")
-            );
-
-          button.classList.add("active");
-
-          renderProducts();
-
-        });
-
-      });
+    result.sort(
+      (a, b) =>
+        getPrice(a) - getPrice(b)
+    );
 
   }
 
 
-  /*
-   * ==========================================
-   * ФИЛЬТРАЦИЯ
-   * ==========================================
-   */
+  if (currentSort === "price-high") {
 
-  function getFilteredProducts() {
+    result.sort(
+      (a, b) =>
+        getPrice(b) - getPrice(a)
+    );
 
-    const search =
-      document
-        .getElementById("search")
-        .value
-        .trim()
-        .toLowerCase();
+  }
 
 
-    let result =
-      products.filter(product => {
+  if (currentSort === "name") {
 
-        const categoryMatch =
-          currentCategory === "all" ||
-          product["Categoría"] === currentCategory;
-
-        if (!categoryMatch) {
-          return false;
-        }
-
-
-        if (!search) {
-          return true;
-        }
-
-
-        const searchableText =
-          Object.values(product)
-            .join(" ")
-            .toLowerCase();
-
-        return searchableText.includes(search);
-
-      });
-
-
-    const sort =
-      document.getElementById("sort").value;
-
-
-    if (sort === "price-low") {
-
-      result.sort((a, b) =>
-        getPrice(a["Precio"]) -
-        getPrice(b["Precio"])
-      );
-
-    }
-
-
-    if (sort === "price-high") {
-
-      result.sort((a, b) =>
-        getPrice(b["Precio"]) -
-        getPrice(a["Precio"])
-      );
-
-    }
-
-
-    if (sort === "name") {
-
-      result.sort((a, b) =>
+    result.sort(
+      (a, b) =>
         String(a["Nombre"] || "")
           .localeCompare(
             String(b["Nombre"] || ""),
             "es"
           )
-      );
+    );
 
-    }
-
-
-    return result;
   }
 
 
-  /*
-   * ==========================================
-   * ЦЕНА
-   * ==========================================
-   */
+  return result;
 
-  function getPrice(value) {
-
-    if (value === undefined || value === null) {
-      return 0;
-    }
-
-    const number =
-      String(value)
-        .replace(",", ".")
-        .replace(/[^0-9.]/g, "");
-
-    return parseFloat(number) || 0;
-  }
+}
 
 
-  /*
-   * ==========================================
-   * КАРТОЧКИ
-   * ==========================================
-   */
+/*
+----------------------------------------------------
+ PRODUCTOS
+----------------------------------------------------
+*/
 
-  function renderProducts() {
+function renderProducts() {
 
-    const container =
-      document.getElementById("products");
-
-    const filtered =
-      getFilteredProducts();
+  const container =
+    document.getElementById("products");
 
 
-    document.getElementById("resultsCount")
-      .textContent =
-      filtered.length +
-      (filtered.length === 1
+  const visible =
+    getVisibleProducts();
+
+
+  document.getElementById(
+    "resultsCount"
+  ).textContent =
+    visible.length +
+    (
+      visible.length === 1
         ? " producto"
-        : " productos");
+        : " productos"
+    );
 
 
-    if (filtered.length === 0) {
+  if (!visible.length) {
 
-      container.innerHTML = `
-        <div class="message">
-          No encontramos productos.
+    container.innerHTML = `
+
+      <div class="message">
+
+        No encontramos productos
+        con estos criterios.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  visible.forEach(product => {
+
+    const card =
+      document.createElement("article");
+
+    card.className = "card";
+
+
+    /*
+    FOTO
+    */
+
+    const photo =
+      getPhoto(product);
+
+
+    let photoHTML;
+
+
+    if (photo) {
+
+      photoHTML = `
+
+        <div class="photo">
+
+          <img
+            src="${escapeHTML(photo)}"
+            alt="${escapeHTML(product["Nombre"] || "Producto")}"
+            loading="lazy"
+          >
+
         </div>
+
       `;
 
-      return;
+    } else {
+
+      photoHTML = `
+
+        <div class="photo">
+          Sin foto
+        </div>
+
+      `;
+
     }
 
 
-    container.innerHTML = "";
+    /*
+    INFORMACIÓN
+    */
+
+    const fields = [
+
+      ["Tipo", "Ideal para"],
+
+      ["Calibre", "Calibre"],
+
+      ["Largo", "Largo"],
+
+      ["Diámetro", "Diámetro"],
+
+      ["mm", "mm"],
+
+      ["Material", "Material"],
+
+      ["Rosca", "Rosca"],
+
+      ["Color", "Color"],
+
+      ["Piedra", "Piedra"]
+
+    ];
 
 
-    filtered.forEach(product => {
-
-      const card =
-        document.createElement("article");
-
-      card.className = "product";
+    let infoHTML = "";
 
 
-      /*
-       * ФОТО
-       */
+    fields.forEach(([field, label]) => {
 
-      const photos =
-        String(product["Fotos"] || "")
-          .split(",")
-          .map(x => x.trim())
-          .filter(Boolean);
+      const value =
+        product[field];
 
 
-      let imageHTML =
-        `<div class="no-image">Sin foto</div>`;
+      if (
+        value !== null &&
+        value !== undefined &&
+        String(value).trim() !== ""
+      ) {
 
+        infoHTML += `
 
-      if (photos.length > 0) {
+          <div class="info-row">
 
-        imageHTML =
-          `<img
-            src="${escapeHTML(photos[0])}"
-            alt="${escapeHTML(product["Nombre"] || "Joyería")}"
-            loading="lazy"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-          >
-          <div class="no-image" style="display:none;">
-            Sin foto
-          </div>`;
+            <strong>
+              ${escapeHTML(label)}:
+            </strong>
 
-      }
+            ${escapeHTML(value)}
 
-
-      /*
-       * ЦЕНА
-       */
-
-      let price =
-        product["Precio"] || "";
-
-      if (price !== "") {
-
-        const numericPrice =
-          getPrice(price);
-
-        if (numericPrice > 0) {
-          price = "$" + numericPrice;
-        }
-
-      }
-
-
-      /*
-       * STOCK
-       */
-
-      const stock =
-        String(product["Stock"] || "")
-          .trim();
-
-      let stockClass = "";
-
-      if (stock === "Agotado") {
-        stockClass = "sold";
-      }
-
-      if (stock === "Consultar") {
-        stockClass = "ask";
-      }
-
-
-      /*
-       * ДЕТАЛИ
-       */
-
-      const detailFields = [
-        ["Tipo", "Ideal para"],
-        ["Calibre", "Calibre"],
-        ["Largo", "Largo"],
-        ["Diámetro", "Diámetro"],
-        ["mm", "mm"],
-        ["Material", "Material"],
-        ["Rosca", "Rosca"],
-        ["Color", "Color"],
-        ["Piedra", "Piedra"]
-      ];
-
-
-      let detailsHTML = "";
-
-
-      detailFields.forEach(([field, label]) => {
-
-        const value =
-          product[field];
-
-        if (
-          value !== undefined &&
-          value !== null &&
-          String(value).trim() !== ""
-        ) {
-
-          detailsHTML += `
-            <div class="detail">
-              <span class="detail-label">
-                ${label}
-              </span>
-
-              <span class="detail-value">
-                ${escapeHTML(String(value))}
-              </span>
-            </div>
-          `;
-
-        }
-
-      });
-
-
-      /*
-       * WHATSAPP
-       */
-
-      const code =
-        product["Código"] || "";
-
-      const name =
-        product["Nombre"] || "producto";
-
-
-      const message =
-        "Hola! Me interesa la joyería " +
-        name +
-        (code ? " (" + code + ")" : "") +
-        ". ¿Está disponible?";
-
-
-      const whatsappURL =
-        "https://wa.me/593984703739?text=" +
-        encodeURIComponent(message);
-
-
-      /*
-       * СОБИРАЕМ КАРТОЧКУ
-       */
-
-      card.innerHTML = `
-
-        <div class="product-image">
-          ${imageHTML}
-        </div>
-
-        <div class="product-body">
-
-          <div class="product-category">
-            ${escapeHTML(product["Categoría"] || "")}
           </div>
 
-          <div class="product-name">
-            ${escapeHTML(name)}
-          </div>
+        `;
 
-          <div class="product-price">
-            ${escapeHTML(String(price))}
-          </div>
-
-          ${
-            stock
-              ? `
-                <div class="stock ${stockClass}">
-                  <span class="stock-dot"></span>
-                  ${escapeHTML(stock)}
-                </div>
-              `
-              : ""
-          }
-
-          ${
-            detailsHTML
-              ? `
-                <div class="details">
-                  ${detailsHTML}
-                </div>
-              `
-              : ""
-          }
-
-          <a
-            class="whatsapp-btn"
-            href="${whatsappURL}"
-            target="_blank"
-            rel="noopener"
-          >
-            Consultar por WhatsApp
-          </a>
-
-        </div>
-      `;
-
-
-      container.appendChild(card);
+      }
 
     });
 
-  }
+
+    /*
+    STOCK
+    */
+
+    const stock =
+      String(product["Stock"] || "")
+        .trim();
 
 
-  /*
-   * ==========================================
-   * ЗАЩИТА ТЕКСТА
-   * ==========================================
-   */
-
-  function escapeHTML(value) {
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
+    let stockText =
+      stock || "Consultar";
 
 
-  /*
-   * ==========================================
-   * ПОИСК
-   * ==========================================
-   */
+    let stockHTML = `
 
-  document
-    .getElementById("search")
-    .addEventListener(
-      "input",
-      renderProducts
-    );
+      <div class="stock">
 
+        <span class="stock-dot"></span>
 
-  /*
-   * ==========================================
-   * СОРТИРОВКА
-   * ==========================================
-   */
+        ${escapeHTML(stockText)}
 
-  document
-    .getElementById("sort")
-    .addEventListener(
-      "change",
-      renderProducts
-    );
+      </div>
+
+    `;
 
 
-  /*
-   * ==========================================
-   * СТАРТ
-   * ==========================================
-   */
+    /*
+    WHATSAPP
+    */
 
-  loadCatalog();
+    const name =
+      product["Nombre"] || "producto";
+
+
+    const code =
+      product["Código"] || "";
+
+
+    const message =
+      "Hola, quiero consultar por " +
+      name +
+      (code
+        ? " (" + code + ")"
+        : "");
+
+
+    const whatsappURL =
+      "https://wa.me/593984703739?text=" +
+      encodeURIComponent(message);
+
+
+    /*
+    DESCRIPCIÓN
+    */
+
+    let descriptionHTML = "";
+
+
+    if (
+      product["Descripción"] &&
+      String(product["Descripción"]).trim() !== ""
+    ) {
+
+      descriptionHTML = `
+
+        <div class="info-row">
+
+          ${escapeHTML(product["Descripción"])}
+
+        </div>
+
+      `;
+
+    }
+
+
+    card.innerHTML = `
+
+      ${photoHTML}
+
+      <div class="card-content">
+
+        <h2>
+          ${escapeHTML(name)}
+        </h2>
+
+        ${
+          code
+            ? `
+              <div class="code">
+                ${escapeHTML(code)}
+              </div>
+            `
+            : ""
+        }
+
+
+        <div class="price">
+          ${displayPrice(product)}
+        </div>
+
+
+        <div class="info">
+
+          ${infoHTML}
+
+          ${descriptionHTML}
+
+        </div>
+
+
+        ${stockHTML}
+
+
+        <a
+          class="order"
+          href="${whatsappURL}"
+          target="_blank"
+          rel="noopener"
+        >
+          Consultar por WhatsApp
+        </a>
+
+      </div>
+
+    `;
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/*
+----------------------------------------------------
+ BUSCADOR
+----------------------------------------------------
+*/
+
+document
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    function(event) {
+
+      currentSearch =
+        event.target.value.trim();
+
+      renderProducts();
+
+    }
+  );
+
+
+/*
+----------------------------------------------------
+ ORDEN
+----------------------------------------------------
+*/
+
+document
+  .getElementById("sort")
+  .addEventListener(
+    "change",
+    function(event) {
+
+      currentSort =
+        event.target.value;
+
+      renderProducts();
+
+    }
+  );
+
+
+/*
+----------------------------------------------------
+ INICIAR
+----------------------------------------------------
+*/
+
+loadCatalog();
 
 </script>
 
