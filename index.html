@@ -523,7 +523,40 @@ function getPhoto(product) {
     .map(x => x.trim())
     .filter(Boolean);
 
-  return urls.length ? urls[0] : null;
+  if (!urls.length) {
+    return null;
+  }
+
+  const url = urls[0];
+
+  /*
+  Google Drive:
+  https://drive.google.com/file/d/FILE_ID/view
+  ↓
+  https://drive.google.com/thumbnail?id=FILE_ID&sz=w1200
+  */
+
+  const driveMatch =
+    url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+
+  if (driveMatch) {
+
+    const fileId = driveMatch[1];
+
+    return (
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(fileId) +
+      "&sz=w1200"
+    );
+
+  }
+
+  /*
+  Также поддерживаем обычные изображения
+  с прямыми URL.
+  */
+
+  return url;
 }
 
 
