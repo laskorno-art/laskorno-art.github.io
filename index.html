@@ -380,6 +380,44 @@ footer strong {
   font-size: 13px;
 }
 
+
+/* PRODUCT MODAL */
+.product-modal{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px}
+.product-modal.active{display:flex}
+.product-modal-box{position:relative;width:min(1050px,96vw);max-height:92vh;overflow:auto;background:#141417;border:1px solid #303036;border-radius:18px;display:grid;grid-template-columns:1.05fr .95fr;box-shadow:0 25px 80px rgba(0,0,0,.55)}
+.product-modal-gallery{position:relative;min-height:560px;background:#0c0c0e;overflow:hidden}
+.product-modal-gallery>img{width:100%;height:100%;min-height:560px;object-fit:contain;display:block;user-select:none}
+.product-modal-thumbs{position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:8px;overflow-x:auto;padding:3px}
+.product-modal-thumb{flex:0 0 58px;width:58px;height:58px;border:1px solid #3b3b40;border-radius:8px;overflow:hidden;background:#17171a;padding:0;cursor:pointer;opacity:.65}
+.product-modal-thumb.active{opacity:1;border-color:#f1f1f1}
+.product-modal-thumb img{width:100%!important;height:100%!important;min-height:0!important;object-fit:cover!important}
+.product-modal-info{padding:42px 38px 35px;display:flex;flex-direction:column}
+.product-modal-close{position:absolute;top:13px;right:13px;z-index:5;width:40px;height:40px;border-radius:50%;border:1px solid #3b3b40;background:rgba(20,20,23,.92);color:#fff;font-size:25px;cursor:pointer}
+.product-modal-category{color:#777;font-size:12px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
+.product-modal-title{font-size:30px;line-height:1.15;margin:0 0 7px}
+.product-modal-code{color:#666;font-size:13px;margin-bottom:25px}
+.product-modal-description{color:#999;line-height:1.6;font-size:14px;margin:0 0 25px}
+.product-modal-specs{border-top:1px solid #29292e;border-bottom:1px solid #29292e;padding:15px 0;display:flex;flex-direction:column;gap:11px}
+.product-modal-spec{display:flex;justify-content:space-between;gap:20px;font-size:14px}
+.product-modal-spec-label{color:#666}.product-modal-spec-value{color:#ddd;text-align:right}
+.product-modal-bottom{margin-top:auto;padding-top:25px}
+.product-modal-price{font-size:28px;font-weight:700;margin-bottom:7px}
+.product-modal-stock{font-size:13px;margin-bottom:17px}
+.product-modal-order{width:100%;padding:14px;border:0;border-radius:9px;background:#f1f1f1;color:#111;font-weight:700;cursor:pointer;font-size:14px}
+.product-modal-order:hover{background:#ddd}
+.product-modal-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.6);color:#fff;font-size:25px;cursor:pointer}
+.product-modal-arrow.left{left:13px}.product-modal-arrow.right{right:13px}
+.product-modal-count{position:absolute;top:15px;left:15px;z-index:4;background:rgba(0,0,0,.62);border-radius:999px;padding:6px 9px;font-size:12px}
+@media(max-width:760px){
+.product-modal{padding:0;align-items:flex-end}
+.product-modal-box{width:100%;max-height:94vh;border-radius:18px 18px 0 0;grid-template-columns:1fr}
+.product-modal-gallery{min-height:55vh;max-height:55vh}
+.product-modal-gallery>img{min-height:55vh;max-height:55vh}
+.product-modal-info{padding:25px 20px}
+.product-modal-title{font-size:25px}
+.product-modal-bottom{margin-top:20px}
+}
+
 @media (max-width: 600px) {
 
   header {
@@ -443,6 +481,141 @@ footer strong {
     font-size: 20px;
   }
 }
+
+/* =========================
+   FILTERS
+========================= */
+
+.filter-bar {
+  margin: 18px 0 10px;
+}
+
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #111;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.filter-toggle:hover {
+  border-color: #666;
+}
+
+.filter-count {
+  display: none;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background: #eee;
+  color: #111;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.filters-panel {
+  display: none;
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  background: #0d0d0d;
+}
+
+.filters-panel.active {
+  display: block;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.filter-select {
+  width: 100%;
+  background: #151515;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 7px;
+  padding: 9px 10px;
+  font-size: 13px;
+  outline: none;
+}
+
+.filter-select:focus {
+  border-color: #777;
+}
+
+.filters-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.clear-filters {
+  background: transparent;
+  color: #aaa;
+  border: 0;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.clear-filters:hover {
+  color: #fff;
+}
+
+.active-filter-note {
+  color: #777;
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .filters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .filters-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .filters-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 </style>
 </head>
 
@@ -470,6 +643,62 @@ footer strong {
 
   <div id="categories" class="categories"></div>
 
+
+  <div class="filter-bar">
+    <button id="filterToggle" class="filter-toggle" type="button">
+      <span>☰ Filtros</span>
+      <span id="filterCount" class="filter-count">0</span>
+    </button>
+
+    <div id="filtersPanel" class="filters-panel">
+      <div class="filters-grid">
+
+        <div class="filter-group">
+          <label for="filterCategory">Categoría</label>
+          <select id="filterCategory" class="filter-select">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterType">Ideal para</label>
+          <select id="filterType" class="filter-select">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterMaterial">Material</label>
+          <select id="filterMaterial" class="filter-select">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterColor">Color</label>
+          <select id="filterColor" class="filter-select">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterGauge">Calibre</label>
+          <select id="filterGauge" class="filter-select">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="filters-footer">
+        <span id="activeFilterNote" class="active-filter-note"></span>
+        <button id="clearFilters" class="clear-filters" type="button">
+          Limpiar filtros
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="controls">
     <div id="results" class="results"></div>
 
@@ -495,6 +724,16 @@ footer strong {
   Instagram · TikTok · Feedback
 </footer>
 
+
+
+<!-- PRODUCT DETAIL MODAL -->
+<div id="productModal" class="product-modal">
+  <div class="product-modal-box">
+    <button id="productModalClose" class="product-modal-close" type="button">×</button>
+    <div id="productModalGallery" class="product-modal-gallery"></div>
+    <div id="productModalInfo" class="product-modal-info"></div>
+  </div>
+</div>
 
 <!-- LIGHTBOX -->
 
@@ -545,6 +784,14 @@ const API_URL =
 let catalog = {};
 let allProducts = [];
 let currentCategory = "Todas";
+
+let activeFilters = {
+  category: "",
+  type: "",
+  material: "",
+  color: "",
+  gauge: ""
+};
 
 let lightboxPhotos = [];
 let lightboxIndex = 0;
@@ -761,6 +1008,8 @@ function prepareProducts() {
 
   renderCategories();
 
+  updateFilterUI();
+
   renderProducts();
 
 }
@@ -796,11 +1045,7 @@ function renderCategories() {
 
   allButton.onclick = () => {
 
-    currentCategory = "Todas";
-
-    updateActiveCategory();
-
-    renderProducts();
+    syncCategory("Todas");
 
   };
 
@@ -820,11 +1065,7 @@ function renderCategories() {
 
     button.onclick = () => {
 
-      currentCategory = category;
-
-      updateActiveCategory();
-
-      renderProducts();
+      syncCategory(category);
 
     };
 
@@ -855,6 +1096,192 @@ function updateActiveCategory() {
    FILTER + SORT
 ========================= */
 
+
+function splitFilterValues(value) {
+  if (value === null || value === undefined || String(value).trim() === "") {
+    return [];
+  }
+
+  return String(value)
+    .split(",")
+    .map(value => value.trim())
+    .filter(Boolean);
+}
+
+
+function normalizeFilterValue(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase();
+}
+
+
+function productMatchesFilter(product, field, selectedValue) {
+  if (!selectedValue) {
+    return true;
+  }
+
+  const selected = normalizeFilterValue(selectedValue);
+
+  return splitFilterValues(product[field])
+    .some(value => normalizeFilterValue(value) === selected);
+}
+
+
+function getFilterOptions(field) {
+  const values = new Map();
+
+  allProducts.forEach(product => {
+    if (
+      activeFilters.category &&
+      product.__category !== activeFilters.category
+    ) {
+      return;
+    }
+
+    splitFilterValues(product[field]).forEach(value => {
+      const key = normalizeFilterValue(value);
+
+      if (key && !values.has(key)) {
+        values.set(key, value);
+      }
+    });
+  });
+
+  return [...values.values()].sort((a, b) =>
+    String(a).localeCompare(String(b), undefined, {
+      numeric: true,
+      sensitivity: "base"
+    })
+  );
+}
+
+
+function populateFilterSelect(id, field, defaultLabel) {
+  const select = document.getElementById(id);
+  const previousValue = activeFilters[field];
+
+  select.innerHTML =
+    `<option value="">${defaultLabel}</option>`;
+
+  getFilterOptions(field).forEach(value => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+  });
+
+  const stillExists =
+    [...select.options].some(
+      option => normalizeFilterValue(option.value) === normalizeFilterValue(previousValue)
+    );
+
+  if (stillExists) {
+    select.value = previousValue;
+  } else {
+    activeFilters[field] = "";
+    select.value = "";
+  }
+}
+
+
+function populateCategoryFilter() {
+  const select = document.getElementById("filterCategory");
+  const previousValue = activeFilters.category;
+
+  select.innerHTML = `<option value="">Todas</option>`;
+
+  Object.keys(catalog)
+    .filter(category =>
+      Array.isArray(catalog[category]) &&
+      catalog[category].length > 0
+    )
+    .forEach(category => {
+      const option = document.createElement("option");
+      option.value = category;
+      option.textContent = category;
+      select.appendChild(option);
+    });
+
+  if (
+    [...select.options].some(option => option.value === previousValue)
+  ) {
+    select.value = previousValue;
+  } else {
+    activeFilters.category = "";
+    select.value = "";
+  }
+}
+
+
+function updateFilterUI() {
+  populateCategoryFilter();
+  populateFilterSelect("filterType", "type", "Todos");
+  populateFilterSelect("filterMaterial", "material", "Todos");
+  populateFilterSelect("filterColor", "color", "Todos");
+  populateFilterSelect("filterGauge", "gauge", "Todos");
+
+  document.getElementById("filterCategory").value =
+    activeFilters.category;
+
+  document.getElementById("filterType").value =
+    activeFilters.type;
+
+  document.getElementById("filterMaterial").value =
+    activeFilters.material;
+
+  document.getElementById("filterColor").value =
+    activeFilters.color;
+
+  document.getElementById("filterGauge").value =
+    activeFilters.gauge;
+
+  const count =
+    Object.values(activeFilters)
+      .filter(Boolean)
+      .length;
+
+  const badge =
+    document.getElementById("filterCount");
+
+  badge.textContent = count;
+  badge.style.display = count ? "inline-flex" : "none";
+
+  document.getElementById("activeFilterNote").textContent =
+    count
+      ? `${count} ${count === 1 ? "filtro activo" : "filtros activos"}`
+      : "Sin filtros adicionales";
+}
+
+
+function resetFilters() {
+  activeFilters = {
+    category: "",
+    type: "",
+    material: "",
+    color: "",
+    gauge: ""
+  };
+
+  currentCategory = "Todas";
+
+  updateActiveCategory();
+  updateFilterUI();
+  renderProducts();
+}
+
+
+function syncCategory(category) {
+  currentCategory = category;
+  activeFilters.category =
+    category === "Todas" ? "" : category;
+
+  updateActiveCategory();
+  updateFilterUI();
+  renderProducts();
+}
+
+
 function getVisibleProducts() {
 
   const search =
@@ -869,14 +1296,46 @@ function getVisibleProducts() {
     [...allProducts];
 
 
-  if (currentCategory !== "Todas") {
+  if (activeFilters.category) {
 
     products =
       products.filter(
         product =>
-          product.__category === currentCategory
+          product.__category === activeFilters.category
       );
 
+  }
+
+
+  if (activeFilters.type) {
+    products =
+      products.filter(product =>
+        productMatchesFilter(product, "Tipo", activeFilters.type)
+      );
+  }
+
+
+  if (activeFilters.material) {
+    products =
+      products.filter(product =>
+        productMatchesFilter(product, "Material", activeFilters.material)
+      );
+  }
+
+
+  if (activeFilters.color) {
+    products =
+      products.filter(product =>
+        productMatchesFilter(product, "Color", activeFilters.color)
+      );
+  }
+
+
+  if (activeFilters.gauge) {
+    products =
+      products.filter(product =>
+        productMatchesFilter(product, "Calibre", activeFilters.gauge)
+      );
   }
 
 
@@ -998,6 +1457,8 @@ function createProductCard(product) {
     document.createElement("article");
 
   card.className = "card";
+  card.style.cursor = "pointer";
+  card.addEventListener("click", () => openProductModal(product));
 
 
   const photos =
@@ -1114,14 +1575,9 @@ function createProductCard(product) {
     }
 
 
-    image.onclick = () => {
-
-      openLightbox(
-        photos,
-        photoIndex,
-        product["Nombre"] || ""
-      );
-
+    image.onclick = (event) => {
+      event.stopPropagation();
+      openProductModal(product, photoIndex);
     };
 
 
@@ -1354,7 +1810,7 @@ function createProductCard(product) {
     <button
       class="order-btn"
       type="button"
-      onclick="window.open('https://wa.me/593984703739?text=${message}', '_blank')"
+      onclick="event.stopPropagation(); window.open('https://wa.me/593984703739?text=${message}', '_blank')"
     >
       Consultar por WhatsApp
     </button>
@@ -1372,6 +1828,111 @@ function createProductCard(product) {
   return card;
 
 }
+
+
+
+/* =========================
+   PRODUCT DETAIL MODAL
+========================= */
+
+let productModalPhotos = [];
+let productModalIndex = 0;
+let productModalProduct = null;
+
+function openProductModal(product, startIndex = 0) {
+  productModalProduct = product;
+  productModalPhotos = getPhotos(product);
+  productModalIndex = Math.max(0, Math.min(startIndex || 0, Math.max(productModalPhotos.length - 1, 0)));
+  renderProductModal();
+  document.getElementById("productModal").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeProductModal() {
+  document.getElementById("productModal").classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function productModalPrev() {
+  if (productModalPhotos.length < 2) return;
+  productModalIndex = (productModalIndex - 1 + productModalPhotos.length) % productModalPhotos.length;
+  renderProductModalGallery();
+}
+
+function productModalNext() {
+  if (productModalPhotos.length < 2) return;
+  productModalIndex = (productModalIndex + 1) % productModalPhotos.length;
+  renderProductModalGallery();
+}
+
+function renderProductModal() {
+  const p = productModalProduct;
+  const info = document.getElementById("productModalInfo");
+  const fields = [
+    ["Tipo","Ideal para"],["Calibre","Calibre"],["Largo","Largo"],
+    ["Diámetro","Diámetro"],["mm","mm"],["Material","Material"],
+    ["Rosca","Rosca"],["Color","Color"],["Piedra","Piedra"]
+  ];
+  let specs = "";
+  fields.forEach(([field,label]) => {
+    const value=p[field];
+    if(value!==undefined && value!==null && String(value).trim()!==""){
+      specs += `<div class="product-modal-spec"><span class="product-modal-spec-label">${escapeHTML(label)}</span><span class="product-modal-spec-value">${escapeHTML(value)}</span></div>`;
+    }
+  });
+
+  const description = p["Descripción"] && String(p["Descripción"]).trim()
+    ? `<p class="product-modal-description">${escapeHTML(p["Descripción"])}</p>` : "";
+  const price=displayPrice(p["Precio"]);
+  const stock=p["Stock"] && String(p["Stock"]).trim() ? String(p["Stock"]) : "";
+  const message=encodeURIComponent(`Hola! Me interesa la joyería "${p["Nombre"] || "producto"}"${p["Código"] ? ` (${p["Código"]})` : ""}.`);
+
+  info.innerHTML=`
+    <div class="product-modal-category">${escapeHTML(p.__category || p["Categoría"] || "")}</div>
+    <h2 class="product-modal-title">${escapeHTML(p["Nombre"] || "Sin nombre")}</h2>
+    <div class="product-modal-code">${escapeHTML(p["Código"] || "")}</div>
+    ${description}
+    ${specs ? `<div class="product-modal-specs">${specs}</div>` : ""}
+    <div class="product-modal-bottom">
+      ${price ? `<div class="product-modal-price">${escapeHTML(price)}</div>` : ""}
+      ${stock ? `<div class="product-modal-stock" style="color:${getStockColor(stock)}"><span class="stock-dot"></span>${escapeHTML(stock)}</div>` : ""}
+      <button class="product-modal-order" type="button" onclick="event.stopPropagation();window.open('https://wa.me/593984703739?text=${message}','_blank')">Consultar por WhatsApp</button>
+    </div>`;
+  renderProductModalGallery();
+}
+
+function renderProductModalGallery() {
+  const gallery=document.getElementById("productModalGallery");
+  const photos=productModalPhotos;
+  if(!photos.length){
+    gallery.innerHTML='<div class="no-photo">Sin foto</div>';
+    return;
+  }
+  const multiple=photos.length>1;
+  gallery.innerHTML=`
+    <img id="productModalImage" src="${escapeHTML(photos[productModalIndex])}" alt="${escapeHTML(productModalProduct["Nombre"]||"Producto")}">
+    ${multiple ? `<button class="product-modal-arrow left" type="button" onclick="event.stopPropagation();productModalPrev()">‹</button>
+    <button class="product-modal-arrow right" type="button" onclick="event.stopPropagation();productModalNext()">›</button>
+    <div class="product-modal-count">${productModalIndex+1} / ${photos.length}</div>
+    <div class="product-modal-thumbs">${photos.map((photo,i)=>`<button class="product-modal-thumb ${i===productModalIndex?"active":""}" type="button" onclick="event.stopPropagation();productModalIndex=${i};renderProductModalGallery()"><img src="${escapeHTML(photo)}" alt=""></button>`).join("")}</div>` : ""}`;
+  const image=document.getElementById("productModalImage");
+  let startX=0;
+  image.addEventListener("touchstart",e=>{startX=e.changedTouches[0].screenX},{passive:true});
+  image.addEventListener("touchend",e=>{
+    const d=startX-e.changedTouches[0].screenX;
+    if(Math.abs(d)>45 && productModalPhotos.length>1) d>0?productModalNext():productModalPrev();
+  },{passive:true});
+}
+
+document.getElementById("productModalClose").onclick=closeProductModal;
+document.getElementById("productModal").addEventListener("click",e=>{if(e.target.id==="productModal")closeProductModal()});
+document.addEventListener("keydown",e=>{
+  const modal=document.getElementById("productModal");
+  if(!modal.classList.contains("active"))return;
+  if(e.key==="Escape")closeProductModal();
+  if(e.key==="ArrowLeft")productModalPrev();
+  if(e.key==="ArrowRight")productModalNext();
+});
 
 
 /* =========================
@@ -1650,6 +2211,53 @@ document
     "change",
     renderProducts
   );
+
+
+
+/* FILTER CONTROLS */
+
+document
+  .getElementById("filterToggle")
+  .addEventListener("click", () => {
+    document
+      .getElementById("filtersPanel")
+      .classList.toggle("active");
+  });
+
+
+[
+  ["filterCategory", "category"],
+  ["filterType", "type"],
+  ["filterMaterial", "material"],
+  ["filterColor", "color"],
+  ["filterGauge", "gauge"]
+].forEach(([id, field]) => {
+
+  document
+    .getElementById(id)
+    .addEventListener("change", event => {
+
+      activeFilters[field] =
+        event.target.value;
+
+      if (field === "category") {
+        currentCategory =
+          event.target.value || "Todas";
+
+        updateActiveCategory();
+      }
+
+      updateFilterUI();
+      renderProducts();
+
+    });
+
+});
+
+
+document
+  .getElementById("clearFilters")
+  .addEventListener("click", resetFilters);
 
 
 /* START */
