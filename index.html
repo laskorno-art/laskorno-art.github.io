@@ -254,19 +254,39 @@ main {
 }
 
 .stock {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #888;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  margin-top: 10px;
+  padding: 6px 10px;
+  border: 1px solid #303036;
+  border-radius: 999px;
+  background: #151518;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: .15px;
 }
 
 .stock-dot {
   display: inline-block;
   width: 7px;
   height: 7px;
+  flex: 0 0 7px;
   border-radius: 50%;
   background: currentColor;
-  margin-right: 5px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent);
 }
+
+.stock-disponible { color: #d7f5dc !important; border-color: #29452f; background: #111913; }
+.stock-consultar { color: #e5d8b8 !important; border-color: #4a402c; background: #191711; }
+.stock-agotado { color: #888 !important; border-color: #303036; background: #141417; }
+.stock-unknown { color: #aaa !important; }
+.card.stock-agotado-card { opacity: .62; }
+.card.stock-agotado-card .gallery { filter: grayscale(.35); }
+.order-btn.order-btn-disabled { background: #252529; color: #777; cursor: not-allowed; border: 1px solid #303036; }
+.order-btn.order-btn-disabled:hover { background: #252529; }
 
 .order-btn {
   width: 100%;
@@ -392,7 +412,7 @@ footer strong {
 .product-modal-thumb.active{opacity:1;border-color:#f1f1f1}
 .product-modal-thumb img{width:100%!important;height:100%!important;min-height:0!important;object-fit:cover!important}
 .product-modal-info{padding:42px 38px 35px;display:flex;flex-direction:column}
-.product-modal-close{position:absolute;top:13px;right:13px;z-index:5;width:40px;height:40px;border-radius:50%;border:1px solid #3b3b40;background:rgba(20,20,23,.92);color:#fff;font-size:25px;cursor:pointer}
+.product-modal-close{position:absolute;top:13px;right:13px;z-index:10002;width:40px;height:40px;border-radius:50%;border:1px solid #3b3b40;background:rgba(20,20,23,.94);color:#fff;font-size:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-sizing:border-box}
 .product-modal-category{color:#777;font-size:12px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
 .product-modal-title{font-size:30px;line-height:1.15;margin:0 0 7px}
 .product-modal-code{color:#666;font-size:13px;margin-bottom:25px}
@@ -409,8 +429,9 @@ footer strong {
 .product-modal-arrow.left{left:13px}.product-modal-arrow.right{right:13px}
 .product-modal-count{position:absolute;top:15px;left:15px;z-index:4;background:rgba(0,0,0,.62);border-radius:999px;padding:6px 9px;font-size:12px}
 @media(max-width:760px){
-.product-modal{padding:0;align-items:flex-end}
-.product-modal-box{width:100%;max-height:94vh;border-radius:18px 18px 0 0;grid-template-columns:1fr}
+.product-modal{padding:0;align-items:flex-end;min-height:100dvh}
+.product-modal-box{width:100%;height:min(94dvh,900px);max-height:94dvh;border-radius:18px 18px 0 0;grid-template-columns:1fr;overflow-y:auto;overscroll-behavior:contain;padding-top:0}
+.product-modal-close{position:fixed;top:max(12px,env(safe-area-inset-top));right:12px;z-index:10003;width:42px;height:42px}
 .product-modal-gallery{min-height:55vh;max-height:55vh}
 .product-modal-gallery>img{min-height:55vh;max-height:55vh}
 .product-modal-info{padding:25px 20px}
@@ -688,6 +709,13 @@ footer strong {
           </select>
         </div>
 
+        <div class="filter-group">
+          <label for="filterStock">Disponibilidad</label>
+          <select id="filterStock" class="filter-select">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
       </div>
 
       <div class="filters-footer">
@@ -790,7 +818,8 @@ let activeFilters = {
   type: "",
   material: "",
   color: "",
-  gauge: ""
+  gauge: "",
+  stock: ""
 };
 
 let lightboxPhotos = [];
@@ -889,20 +918,21 @@ function displayPrice(value) {
 }
 
 
-function getStockColor(stock) {
+function getStockClass(stock) {
+  const value = String(stock || "").toLowerCase().trim();
+  if (value.includes("disponible")) return "stock-disponible";
+  if (value.includes("consultar")) return "stock-consultar";
+  if (value.includes("agotado")) return "stock-agotado";
+  return "stock-unknown";
+}
 
-  const value =
-    String(stock || "").toLowerCase();
+function isStockSoldOut(stock) {
+  return String(stock || "").toLowerCase().includes("agotado");
+}
 
-  if (value.includes("disponible")) {
-    return "#aaa";
-  }
-
-  if (value.includes("agotado")) {
-    return "#555";
-  }
-
-  return "#888";
+function getStockLabel(stock) {
+  const value = String(stock || "").trim();
+  return value || "Consultar";
 }
 
 
@@ -1144,7 +1174,8 @@ function getFilterOptions(dataField, currentFilterKey) {
       type: "Tipo",
       material: "Material",
       color: "Color",
-      gauge: "Calibre"
+      gauge: "Calibre",
+      stock: "Stock"
     };
 
     for (const [key, field] of Object.entries(filterMap)) {
@@ -1240,6 +1271,7 @@ function updateFilterUI() {
   populateFilterSelect("filterMaterial", "material", "Material", "Todos");
   populateFilterSelect("filterColor", "color", "Color", "Todos");
   populateFilterSelect("filterGauge", "gauge", "Calibre", "Todos");
+  populateFilterSelect("filterStock", "stock", "Stock", "Todos");
 
   document.getElementById("filterCategory").value =
     activeFilters.category;
@@ -1255,6 +1287,9 @@ function updateFilterUI() {
 
   document.getElementById("filterGauge").value =
     activeFilters.gauge;
+
+  document.getElementById("filterStock").value =
+    activeFilters.stock;
 
   const count =
     Object.values(activeFilters)
@@ -1280,7 +1315,8 @@ function resetFilters() {
     type: "",
     material: "",
     color: "",
-    gauge: ""
+    gauge: "",
+    stock: ""
   };
 
   currentCategory = "Todas";
@@ -1355,6 +1391,13 @@ function getVisibleProducts() {
     products =
       products.filter(product =>
         productMatchesFilter(product, "Calibre", activeFilters.gauge)
+      );
+  }
+
+  if (activeFilters.stock) {
+    products =
+      products.filter(product =>
+        productMatchesFilter(product, "Stock", activeFilters.stock)
       );
   }
 
@@ -1476,7 +1519,9 @@ function createProductCard(product) {
   const card =
     document.createElement("article");
 
-  card.className = "card";
+  const soldOut = isStockSoldOut(product["Stock"]);
+
+  card.className = "card" + (soldOut ? " stock-agotado-card" : "");
   card.style.cursor = "pointer";
   card.addEventListener("click", () => openProductModal(product));
 
@@ -1797,13 +1842,12 @@ function createProductCard(product) {
     html += `
 
       <div
-        class="stock"
-        style="color:${getStockColor(stock)}"
+        class="stock ${getStockClass(stock)}"
       >
 
         <span class="stock-dot"></span>
 
-        ${escapeHTML(stock)}
+        ${escapeHTML(getStockLabel(stock))}
 
       </div>
 
@@ -1825,17 +1869,26 @@ function createProductCard(product) {
     );
 
 
-  html += `
-
-    <button
-      class="order-btn"
-      type="button"
-      onclick="event.stopPropagation(); window.open('https://wa.me/593984703739?text=${message}', '_blank')"
-    >
-      Consultar por WhatsApp
-    </button>
-
-  `;
+  html += soldOut
+    ? `
+      <button
+        class="order-btn order-btn-disabled"
+        type="button"
+        disabled
+        onclick="event.stopPropagation()"
+      >
+        Agotado
+      </button>
+    `
+    : `
+      <button
+        class="order-btn"
+        type="button"
+        onclick="event.stopPropagation(); window.open('https://wa.me/593984703739?text=${message}', '_blank')"
+      >
+        Consultar por WhatsApp
+      </button>
+    `;
 
 
   content.innerHTML =
@@ -1915,8 +1968,10 @@ function renderProductModal() {
     ${specs ? `<div class="product-modal-specs">${specs}</div>` : ""}
     <div class="product-modal-bottom">
       ${price ? `<div class="product-modal-price">${escapeHTML(price)}</div>` : ""}
-      ${stock ? `<div class="product-modal-stock" style="color:${getStockColor(stock)}"><span class="stock-dot"></span>${escapeHTML(stock)}</div>` : ""}
-      <button class="product-modal-order" type="button" onclick="event.stopPropagation();window.open('https://wa.me/593984703739?text=${message}','_blank')">Consultar por WhatsApp</button>
+      ${stock ? `<div class="product-modal-stock stock ${getStockClass(stock)}"><span class="stock-dot"></span>${escapeHTML(getStockLabel(stock))}</div>` : ""}
+      ${isStockSoldOut(stock)
+        ? `<button class="product-modal-order order-btn-disabled" type="button" disabled>Agotado</button>`
+        : `<button class="product-modal-order" type="button" onclick="event.stopPropagation();window.open('https://wa.me/593984703739?text=${message}','_blank')">Consultar por WhatsApp</button>`}
     </div>`;
   renderProductModalGallery();
 }
@@ -2250,7 +2305,8 @@ document
   ["filterType", "type"],
   ["filterMaterial", "material"],
   ["filterColor", "color"],
-  ["filterGauge", "gauge"]
+  ["filterGauge", "gauge"],
+  ["filterStock", "stock"]
 ].forEach(([id, field]) => {
 
   document
