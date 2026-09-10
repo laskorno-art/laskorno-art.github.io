@@ -1128,10 +1128,11 @@ function productMatchesFilter(product, field, selectedValue) {
 }
 
 
-function getFilterOptions(field) {
+function getFilterOptions(dataField, currentFilterKey) {
   const values = new Map();
 
   allProducts.forEach(product => {
+
     if (
       activeFilters.category &&
       product.__category !== activeFilters.category
@@ -1139,7 +1140,24 @@ function getFilterOptions(field) {
       return;
     }
 
-    splitFilterValues(product[field]).forEach(value => {
+    const filterMap = {
+      type: "Tipo",
+      material: "Material",
+      color: "Color",
+      gauge: "Calibre"
+    };
+
+    for (const [key, field] of Object.entries(filterMap)) {
+      if (
+        key !== currentFilterKey &&
+        activeFilters[key] &&
+        !productMatchesFilter(product, field, activeFilters[key])
+      ) {
+        return;
+      }
+    }
+
+    splitFilterValues(product[dataField]).forEach(value => {
       const key = normalizeFilterValue(value);
 
       if (key && !values.has(key)) {
@@ -1157,14 +1175,14 @@ function getFilterOptions(field) {
 }
 
 
-function populateFilterSelect(id, field, defaultLabel) {
+function populateFilterSelect(id, stateKey, dataField, defaultLabel) {
   const select = document.getElementById(id);
-  const previousValue = activeFilters[field];
+  const previousValue = activeFilters[stateKey];
 
   select.innerHTML =
     `<option value="">${defaultLabel}</option>`;
 
-  getFilterOptions(field).forEach(value => {
+  getFilterOptions(dataField, stateKey).forEach(value => {
     const option = document.createElement("option");
     option.value = value;
     option.textContent = value;
@@ -1173,13 +1191,15 @@ function populateFilterSelect(id, field, defaultLabel) {
 
   const stillExists =
     [...select.options].some(
-      option => normalizeFilterValue(option.value) === normalizeFilterValue(previousValue)
+      option =>
+        normalizeFilterValue(option.value) ===
+        normalizeFilterValue(previousValue)
     );
 
   if (stillExists) {
     select.value = previousValue;
   } else {
-    activeFilters[field] = "";
+    activeFilters[stateKey] = "";
     select.value = "";
   }
 }
@@ -1216,10 +1236,10 @@ function populateCategoryFilter() {
 
 function updateFilterUI() {
   populateCategoryFilter();
-  populateFilterSelect("filterType", "type", "Todos");
-  populateFilterSelect("filterMaterial", "material", "Todos");
-  populateFilterSelect("filterColor", "color", "Todos");
-  populateFilterSelect("filterGauge", "gauge", "Todos");
+  populateFilterSelect("filterType", "type", "Tipo", "Todos");
+  populateFilterSelect("filterMaterial", "material", "Material", "Todos");
+  populateFilterSelect("filterColor", "color", "Color", "Todos");
+  populateFilterSelect("filterGauge", "gauge", "Calibre", "Todos");
 
   document.getElementById("filterCategory").value =
     activeFilters.category;
